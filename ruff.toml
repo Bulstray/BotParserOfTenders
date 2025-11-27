@@ -1,7 +1,7 @@
 line-length = 79
 target-version = "py313"
 
-
+[lint]
 select = [
 "FAST", # FastAPI (FAST)
     "YTT", # flake8-2020 (YTT)

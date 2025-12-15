@@ -3,8 +3,8 @@ from pathlib import Path
 from pydantic import BaseModel
 from pydantic_settings import (
     BaseSettings,
-    SettingsConfigDict,
     PydanticBaseSettingsSource,
+    SettingsConfigDict,
     YamlConfigSettingsSource,
 )
 
@@ -19,6 +19,16 @@ class ParserConfig(BaseModel):
     etp_gpb: str = (
         "https://etpgpb.ru/procedures.rss?page=1&per=100&procedure%5Bstage%5D%5B0%5D=accepting&search="
     )
+
+    tek_torg: str = "https://www.tektorg.ru/procedures?name="
+
+
+class SessionHeaders(BaseModel):
+    headers: dict[str, str] = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+        "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+    }
 
 
 class Settings(BaseSettings):
@@ -65,6 +75,7 @@ class Settings(BaseSettings):
 
     bot_settings: BotSettings = BotSettings()
     parser_config: ParserConfig = ParserConfig()
+    session_header: SessionHeaders = SessionHeaders()
 
 
 settings = Settings()

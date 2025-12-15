@@ -54,3 +54,7 @@ select = [
 
 fixable = ["ALL"]
 unfixable = []
+
+ignore = [
+    'INP001'
+]

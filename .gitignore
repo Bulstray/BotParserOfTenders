@@ -215,4 +215,4 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-bot-parse/config.local.yaml
+config.local.yaml

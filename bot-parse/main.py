@@ -16,6 +16,10 @@ async def main() -> None:
 async def hour_parce():
     while True:
         await asyncio.sleep(settings.time_pause.parsing_frequency)
+        await bot_settings.send_message(
+            1023172486,
+            text="Лог, что бот работает",
+        )
         new_posts = checks_in_database()
         if new_posts:
 
@@ -28,11 +32,11 @@ async def hour_parce():
 
                 text = f"{text.rstrip()}\n\n────────────────────"
 
-                # await bot_settings.send_message(
-                #     chat_id=1023172486,
-                #     text=text,
-                #     parse_mode=ParseMode.HTML,
-                # )
+                await bot_settings.send_message(
+                    chat_id=1023172486,
+                    text=text,
+                    parse_mode=ParseMode.HTML,
+                )
 
                 await asyncio.sleep(0.05)
 

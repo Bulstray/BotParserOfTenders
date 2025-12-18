@@ -1,26 +1,37 @@
 from pathlib import Path
+from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 from pydantic_settings import (
     BaseSettings,
-    PydanticBaseSettingsSource,
     SettingsConfigDict,
-    YamlConfigSettingsSource,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-class BotSettings(BaseModel):
-    token: str = "token"  # noqa: S105
+class TimePause(BaseModel):
+    parsing_frequency: int = 20
+
+
+class KeyWord(Enum):
+    grav: str = "Гравим"
+    electro: str = "Электроразв"
+    magnit: str = "Магниторазв"
+    geodin: str = "Геодинам"
 
 
 class ParserConfig(BaseModel):
-    etp_gpb: str = (
+    etp_gpb: HttpUrl = (
         "https://etpgpb.ru/procedures.rss?page=1&per=100&procedure%5Bstage%5D%5B0%5D=accepting&search="
     )
 
-    tek_torg: str = "https://www.tektorg.ru/procedures?name="
+    lukhoil: HttpUrl = (
+        "https://lukoil.ru/Company/Tendersandauctions/Tenders/TendersofLukoilgroup?tab=1&organization=0&country=0"
+    )
+
+    tek_torg: HttpUrl = "https://www.tektorg.ru/procedures?name="
+    sber: HttpUrl = r"https://www.sberbank-ast.ru/Default.aspx"
 
 
 class SessionHeaders(BaseModel):
@@ -35,47 +46,18 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         case_sensitive=False,
-        yaml_file=(
-            BASE_DIR / "config.default.yaml",
-            BASE_DIR / "config.local.yaml",
+        env_file=(
+            BASE_DIR / ".env.example",
+            BASE_DIR / ".env",
         ),
-        yaml_config_section="bot",
+        env_prefix="BOT__",
+        env_nested_delimiter="_",
     )
 
-    @classmethod
-    def settings_customise_sources(
-        cls,
-        settings_cls: type[BaseSettings],
-        init_settings: PydanticBaseSettingsSource,
-        env_settings: PydanticBaseSettingsSource,
-        dotenv_settings: PydanticBaseSettingsSource,
-        file_secret_settings: PydanticBaseSettingsSource,
-    ) -> tuple[PydanticBaseSettingsSource, ...]:
-        """
-        Define the sources and their order for loading the settings values.
-
-        Args:
-            settings_cls: The Settings class.
-            init_settings: The `InitSettingsSource` instance.
-            env_settings: The `EnvSettingsSource` instance.
-            dotenv_settings: The `DotEnvSettingsSource` instance.
-            file_secret_settings: The `SecretsSettingsSource` instance.
-
-        Returns:
-            A tuple containing the sources
-            and their order for loading the settings values.
-        """
-        return (
-            init_settings,
-            env_settings,
-            dotenv_settings,
-            file_secret_settings,
-            YamlConfigSettingsSource(settings_cls),
-        )
-
-    bot_settings: BotSettings = BotSettings()
+    token: str
     parser_config: ParserConfig = ParserConfig()
     session_header: SessionHeaders = SessionHeaders()
+    time_pause: TimePause = TimePause()
 
 
 settings = Settings()

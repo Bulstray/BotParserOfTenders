@@ -14,7 +14,7 @@ async def main() -> None:
 
 async def hour_parce():
     while True:
-        await asyncio.sleep(20)
+        await asyncio.sleep(5400)
         await bot_settings.send_message(
             1023172486,
             text="Лог, что бот работает",
@@ -33,6 +33,12 @@ async def hour_parce():
 
                 await bot_settings.send_message(
                     chat_id=1023172486,
+                    text=text,
+                    parse_mode=ParseMode.HTML,
+                )
+
+                await bot_settings.send_message(
+                    chat_id=5770388740,
                     text=text,
                     parse_mode=ParseMode.HTML,
                 )

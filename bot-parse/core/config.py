@@ -10,10 +10,6 @@ from pydantic_settings import (
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-class TimePause(BaseModel):
-    parsing_frequency: int = 20
-
-
 class KeyWord(Enum):
     grav: str = "Гравим"
     electro: str = "Электроразв"
@@ -57,7 +53,6 @@ class Settings(BaseSettings):
     token: str
     parser_config: ParserConfig = ParserConfig()
     session_header: SessionHeaders = SessionHeaders()
-    time_pause: TimePause = TimePause()
 
 
 settings = Settings()

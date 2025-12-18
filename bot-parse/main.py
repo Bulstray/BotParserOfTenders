@@ -4,7 +4,6 @@ from bot import bot_settings, dp
 from aiogram.enums import ParseMode
 
 from parsers.check_new_post import checks_in_database
-from core.config import settings
 
 
 async def main() -> None:
@@ -15,7 +14,7 @@ async def main() -> None:
 
 async def hour_parce():
     while True:
-        await asyncio.sleep(settings.time_pause.parsing_frequency)
+        await asyncio.sleep(20)
         await bot_settings.send_message(
             1023172486,
             text="Лог, что бот работает",

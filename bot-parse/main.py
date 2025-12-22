@@ -1,21 +1,21 @@
 import asyncio
 
-from bot import bot_settings, dp
+from bot import bot, dp
 from aiogram.enums import ParseMode
 
 from parsers.check_new_post import checks_in_database
 
 
 async def main() -> None:
-    await bot_settings.delete_webhook(drop_pending_updates=True)
+    await bot.delete_webhook(drop_pending_updates=True)
     asyncio.create_task(hour_parce())
-    await dp.start_polling(bot_settings)
+    await dp.start_polling(bot)
 
 
 async def hour_parce():
     while True:
         await asyncio.sleep(5400)
-        await bot_settings.send_message(
+        await bot.send_message(
             1023172486,
             text="Лог, что бот работает",
         )
@@ -31,13 +31,13 @@ async def hour_parce():
 
                 text = f"{text.rstrip()}\n\n────────────────────"
 
-                await bot_settings.send_message(
+                await bot.send_message(
                     chat_id=1023172486,
                     text=text,
                     parse_mode=ParseMode.HTML,
                 )
 
-                await bot_settings.send_message(
+                await bot.send_message(
                     chat_id=5770388740,
                     text=text,
                     parse_mode=ParseMode.HTML,

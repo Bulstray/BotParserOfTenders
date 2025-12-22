@@ -15,6 +15,7 @@ class KeyWord(Enum):
     electro: str = "Электроразв"
     magnit: str = "Магниторазв"
     geodin: str = "Геодинам"
+    chemistry: str = "Геохим"
 
 
 class ParserConfig(BaseModel):

@@ -34,6 +34,8 @@ def parce_sber(key_word: str):
     dropdown = Select(select_element)
     dropdown.select_by_visible_text("100")
 
+    time.sleep(15)
+
     html = driver.execute_script("return document.documentElement.outerHTML;")
 
     soup = BeautifulSoup(html, "lxml")

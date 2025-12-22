@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from datetime import datetime
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -53,15 +54,25 @@ def parce_sber(key_word: str):
             if name is None:
                 continue
 
-            tenders.append(
-                {
-                    "company": "#SBER",
-                    "customer": f"{panel.find('div', class_="es-el-org-name").text}",
-                    "name": f"{name.text}",
-                    "price": f"{panel.find('span', class_='es-el-amount').text}",
-                }
-            )
+            time_deadline = panel.find("span", attrs={"content": "leaf:RequestDate"})
+            time_deadline = datetime.strptime(time_deadline.text.split()[0], "%d.%m.%Y")
+
+            time_now = datetime.now().date()
+
+            if time_deadline > time_now:
+                tenders.append(
+                    {
+                        "company": "#SBER",
+                        "customer": f"{panel.find('div', class_="es-el-org-name").text}",
+                        "name": f"{name.text}",
+                        "price": f"{panel.find('span', class_='es-el-amount').text}",
+                        "key_word": f"{key_word}",
+                    }
+                )
 
         return tenders
     except:
         return []
+
+
+print(parce_sber("Поставка электроразведочной станции для нужд ГОУ ВПО ИрГТУ"))

@@ -40,8 +40,9 @@ def checks_in_database():
             for post in posts_site:
                 if post not in data[company][key_word]:
                     new_posts.append(post)
+                    data[company][key_word].append(post)
 
-            data[company][key_word] = posts_site
+            #data[company][key_word] = posts_site
 
             new_all_posts.extend(new_posts)
 
